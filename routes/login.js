@@ -23,6 +23,8 @@ router.post('/', async (req, res) => {
 
                     res.render('incorrect-credentials.ejs')
                 })
+            } else if (user.email === users[users.length - 1].email) {
+                res.render('incorrect-credentials.ejs')
             }
         })
     } catch (error) {
