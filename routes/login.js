@@ -16,13 +16,15 @@ router.post('/', async (req, res) => {
         const users = await database.readAll()
         users.map(user => {
             if (user.email === req.body.email) {
-                bcrypt.compare(req.body.password, user.password, (err, logged) => {
-                    if (logged) {
-                        res.redirect('/todos')
-                    }
 
+                const result = bcrypt.compareSync(req.body.password, user.password)
+                if (result) {
+                    res.redirect('/login')
+                } else {
                     res.render('incorrect-credentials.ejs')
-                })
+                }
+
+
             } else if (user.email === users[users.length - 1].email) {
                 res.render('incorrect-credentials.ejs')
             }
