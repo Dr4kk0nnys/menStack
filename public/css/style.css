@@ -9,6 +9,15 @@ label {
     margin-top: 10px;
 }
 
+#error {
+    color: red;
+    font-size: large;
+}
+
+a {
+    
+}
+
 input {
     height: 25px;
 }

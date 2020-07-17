@@ -5,6 +5,7 @@ const __dirname = path.resolve(path.dirname(''))
 
 // Routes
 import register from './routes/register.js'
+import login from './routes/login.js'
 
 import express from 'express'
 const app = express()
@@ -16,6 +17,7 @@ app.use(express.urlencoded({ extended: false }))
 
 // Routes
 app.use('/register', register)
+app.use('/login', login)
 
 const PORT = process.env.PORT || 3000
 app.listen(PORT, () => console.log(`Server listening on port ${PORT}`))

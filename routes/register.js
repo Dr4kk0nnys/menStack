@@ -1,3 +1,4 @@
+import bcrypt from 'bcrypt'
 import { } from 'dotenv/config.js'
 
 import express from 'express'
@@ -10,11 +11,21 @@ router.get('/', (req, res) => {
     res.render('register.ejs')
 })
 
-router.post('/', (req, res) => {
-    /*
-        * TODO: Add it to the database
-        * TODO: Encrypt the password
-    */
+router.post('/', async (req, res) => {
+    try {
+        const hashedPassword = await bcrypt.hash(req.body.password, 10)
+        const newUser = {
+            name: req.body.name,
+            email: req.body.email,
+            password: hashedPassword
+        }
+
+        await database.add(newUser)
+
+        res.redirect('/login')
+    } catch (error) {
+        res.render('error.ejs', { error })
+    }
 })
 
 export default router
