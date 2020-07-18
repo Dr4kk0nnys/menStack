@@ -12,21 +12,17 @@ router.get('/', (req, res) => {
 })
 
 router.post('/', async (req, res) => {
+    // TODO: Figure it out a way to check if an email isn't registered
+    // TODO: Work on the checking of incorrect credentials in general,
+    //          such as incorrect password and email
     try {
         const users = await database.readAll()
         users.map(user => {
             if (user.email === req.body.email) {
-
-                const result = bcrypt.compareSync(req.body.password, user.password)
-                if (result) {
-                    res.redirect('/login')
-                } else {
-                    res.render('incorrect-credentials.ejs')
-                }
-
-
-            } else if (user.email === users[users.length - 1].email) {
-                res.render('incorrect-credentials.ejs')
+                bcrypt.compare(req.body.password, user.password, (err, logged) => {
+                    if (logged) res.redirect('/todos')
+                    else res.render('incorrect-credentials.ejs')
+                })
             }
         })
     } catch (error) {

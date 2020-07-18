@@ -1,3 +1,7 @@
+/*
+    * TODO: The entire login system is useless
+*/
+
 import { } from 'dotenv/config.js'
 
 import path from 'path'
