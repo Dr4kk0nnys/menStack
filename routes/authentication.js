@@ -8,7 +8,7 @@ const LocalStrategy = passportLocal.Strategy
 import Database from '../utils/database.js'
 const database = new Database(process.env.DATABASE_NAME, process.env.USERS_TABLE_NAME)
 
-passport.use(new LocalStrategy(
+passport.use(new LocalStrategy({ usernameField: 'email' },
     async function (email, password, done) {
         try {
             const users = await database.readAll()
