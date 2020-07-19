@@ -8,10 +8,11 @@ import register from './routes/register.js'
 import login from './routes/login.js'
 import todos from './routes/todos.js'
 
+// Passport
 import session from 'express-session'
+import passport from './routes/authentication.js'
 
 import express from 'express'
-import passport from 'passport'
 const app = express()
 
 app.set('view-engine', 'ejs')
@@ -20,7 +21,7 @@ app.use(express.static(__dirname + '/public'))
 app.use(session({
     secret: 'verySecret',
     resave: false,
-    saveUninitialized: false
+    saveUninitialized: true
 }))
 
 app.use(express.urlencoded({ extended: false }))

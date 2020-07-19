@@ -8,29 +8,26 @@ const LocalStrategy = passportLocal.Strategy
 import Database from '../utils/database.js'
 const database = new Database(process.env.DATABASE_NAME, process.env.USERS_TABLE_NAME)
 
-passport.use(new LocalStrategy({ usernameField: 'email' },
-    async function (email, password, done) {
-        try {
-            const users = await database.readAll()
-            const user = users.filter(user => user.email === email)[0]
-
-            if (user) {
-                const isLogged = await new Promise((resolve, reject) => {
-                    if (bcryptjs.compareSync(password, user.password)) {
-                        resolve(true)
-                    }
-
-                    resolve(false)
-                })
-
-                if (isLogged) return done(null, user)
-                return done(null, false, { message: 'Incorrect password!' })
-            } else {
-                return done(null, false, { message: 'No email registered!' })
+passport.use(new LocalStrategy({ usernameField: 'email', passwordField: 'password' },
+    function (email, password, done) {
+        User.findOne({ email }, (err, user) => {
+            if (err) {
+                console.log('Authentication error: ' + err)
+                return done(err)
+            }
+            if (!user) {
+                console.log('No user')
+                return done(null, false, { message: 'Incorrect email' })
             }
 
-        } catch (error) {
-            return done(error)
-        }
+            if (!user.validPassword(password)) {
+                console.log('No password')
+                return done(null, false, { message: 'Incorrect password' })
+            }
+
+            return done(null, user)
+        })
     }
 ))
+
+export default passport
