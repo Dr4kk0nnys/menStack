@@ -1,4 +1,4 @@
-import bcrypt from 'bcrypt'
+import bcryptjs from 'bcryptjs'
 import { } from 'dotenv/config.js'
 
 import express from 'express'
@@ -13,7 +13,15 @@ router.get('/', (req, res) => {
 
 router.post('/', async (req, res) => {
     try {
-        const hashedPassword = await bcrypt.hash(req.body.password, 10)
+        // already registered email
+        const users = await database.readAll()
+        const isEmailRegistered = users.filter(user => user.email === req.body.email)
+
+        if (isEmailRegistered[0]) {
+            res.render('error.ejs', { error: 'This email has already been registered!' })
+        }
+
+        const hashedPassword = await bcryptjs.hash(req.body.password, 10)
         const newUser = {
             name: req.body.name,
             email: req.body.email,
