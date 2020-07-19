@@ -45,10 +45,10 @@ router.post('/', async (req, res) => {
                 resolve(false)
             })
 
-            if (isLogged) res.redirect('/todos')
-            res.render('error.ejs', { error: 'Incorrect password' })
+            if (isLogged) return res.redirect('/todos')
+            return res.render('error.ejs', { error: 'Incorrect password' })
         } else {
-            res.render('error.ejs', { error: 'Incorrect email!' })
+            return res.render('error.ejs', { error: 'Email not registered' })
         }
     } catch (error) {
         res.render('error.ejs', { error })
