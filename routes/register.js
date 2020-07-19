@@ -13,12 +13,19 @@ router.get('/', (req, res) => {
 
 router.post('/', async (req, res) => {
     try {
-        // already registered email
+        /*
+            * It first check if the user.email is already inside the database
+            *   ( if the email has already been registered )
+            * If it does, it show an error scree
+            * If it doesn't it saves the email to the database
+            *   it also saves the password, but encrypted
+            *   and then redirects the user to the /login page
+        */
         const users = await database.readAll()
         const isEmailRegistered = users.filter(user => user.email === req.body.email)
 
         if (isEmailRegistered[0]) {
-            res.render('error.ejs', { error: 'This email has already been registered!' })
+            return res.render('error.ejs', { error: 'This email has already been registered!' })
         }
 
         const hashedPassword = await bcryptjs.hash(req.body.password, 10)

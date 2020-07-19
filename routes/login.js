@@ -13,13 +13,6 @@ router.get('/', (req, res) => {
 
 router.post('/', async (req, res) => {
     /*
-        * TODO: There is a bug that apparently it's because of res.send being called twice
-        * The problem persist in the fact that resolve is return true and false
-        * Although it could've been because it's calling the render twice
-        * And even though it's a promise, it must be fixed
-    */
-
-    /*
         * TODO: If the user is logged in, it shouldn't be able to go to the /login route
         * TODO: If it's logged in, it shouldn't be able to go to the /register route
         * TODO: Figure it out a way to check if the user is logged in
