@@ -7,8 +7,6 @@ const router = express.Router()
 import Database from '../utils/database.js'
 const database = new Database(process.env.DATABASE_NAME, process.env.USERS_TABLE_NAME)
 
-import usersSession from '../server.js'
-
 router.get('/', (req, res) => {
     res.render('login.ejs')
 })
