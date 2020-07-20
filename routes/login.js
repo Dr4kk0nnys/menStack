@@ -1,5 +1,3 @@
-import passport from 'passport'
-
 import express from 'express'
 const router = express.Router()
 
@@ -7,9 +5,8 @@ router.get('/', (req, res) => {
     res.render('login.ejs')
 })
 
-router.post('/', passport.authenticate('local', {
-    successRedirect: '/todos',
-    failureRedirect: '/error'
-}))
+router.post('/', (req, res) => {
+    res.send('Hello World')
+})
 
 export default router
