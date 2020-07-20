@@ -3,13 +3,14 @@ import { } from 'dotenv/config.js'
 import path from 'path'
 const __dirname = path.resolve(path.dirname(''))
 
+import Database from './utils/database.js'
+const database = new Database(process.env.DATABASE_NAME, process.env.USERS_TABLE_NAME)
+
 // Passport config
 import methodOverride from 'method-override'
 import session from 'express-session'
 import passport from 'passport'
 
-import Database from './utils/database.js'
-const database = new Database(process.env.DATABASE_NAME, process.env.USERS_TABLE_NAME)
 import initialize from './routes/passport-config.js'
 initialize(
     passport,
@@ -38,7 +39,7 @@ app.use(express.urlencoded({ extended: false }))
 
 // Passport
 app.use(session({
-    secret: 'verySecret',
+    secret: process.env.SESSION_KEY,
     resave: false,
     saveUninitialized: false
 }))
