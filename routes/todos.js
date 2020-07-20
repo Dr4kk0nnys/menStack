@@ -1,7 +1,10 @@
+import auth from '../utils/auth.js'
+
 import express from 'express'
 const router = express.Router()
 
-router.get('/', (req, res) => {
+
+router.get('/', auth.checkAuthenticated, (req, res) => {
     res.render('todos.ejs', { name: req.user.name })
 })
 

@@ -25,6 +25,7 @@ initialize(
 )
 
 // Routes
+import index from './routes/index.js'
 import register from './routes/register.js'
 import login from './routes/login.js'
 import todos from './routes/todos.js'
@@ -48,40 +49,21 @@ app.use(passport.session())
 app.use(methodOverride('_method'))
 
 // Routes
-app.use('/register', (register, checkNotAuthenticated))
-// app.use('/login', login)
-app.get('/login', checkNotAuthenticated, (req, res) => {
-    res.render('login.ejs')
-})
-app.get('/todos', checkAuthenticated, (req, res) => {
-    res.render('todos.ejs', { name: req.user.name })
-})
-app.post('/login', passport.authenticate('local', { successRedirect: '/todos', failureRedirect: '/error' }))
-// Middleware function
-function checkAuthenticated(req, res, next) {
-    // return true if the user is authenticated
-    if (req.isAuthenticated()) {
-        return next()
-    }
+app.use('/', index)
+app.use('/register', register)
+app.use('/login', login)
+app.use('/todos', todos)
 
-    res.redirect('/login')
-}
-function checkNotAuthenticated(req, res, next) {
-    if (req.isAuthenticated()) {
-        return res.redirect('/todos')
-    }
-    next()
-}
-// In order to use delete as a 'form'
-// it needs an external method called 'method-override' (npm i method-override)
 app.delete('/logout', (req, res) => {
-    // function that passport sets
-    // it clear the session and log the user out
+    /*
+        * Delete is the correct way of deleting sessions
+        * The req.logOut function is set by passport automatically
+        * It clears the session, and log the user out
+        * And after that, it redirects the user out to the /login page
+    */
     req.logOut()
     res.redirect('/login')
 })
-
-// app.use('/todos', todos)
 
 const PORT = process.env.PORT || 3000
 app.listen(PORT, () => console.log(`Server listening on port ${PORT}`))

@@ -1,17 +1,19 @@
 import bcryptjs from 'bcryptjs'
 import { } from 'dotenv/config.js'
 
+import auth from '../utils/auth.js'
+
 import express from 'express'
 const router = express.Router()
 
 import Database from '../utils/database.js'
 const database = new Database(process.env.DATABASE_NAME, process.env.USERS_TABLE_NAME)
 
-router.get('/', (req, res) => {
+router.get('/', auth.checkNotAuthenticated, (req, res) => {
     res.render('register.ejs')
 })
 
-router.post('/', async (req, res) => {
+router.post('/', auth.checkNotAuthenticated, async (req, res) => {
     try {
         /*
             * It first check if the user.email is already inside the database
@@ -22,9 +24,9 @@ router.post('/', async (req, res) => {
             *   and then redirects the user to the /login page
         */
         const users = await database.readAll()
-        const isEmailRegistered = users.filter(user => user.email === req.body.email)
+        const isEmailRegistered = users.filter(user => user.email === req.body.email)[0]
 
-        if (isEmailRegistered[0]) {
+        if (isEmailRegistered) {
             return res.render('error.ejs', { error: 'This email has already been registered!' })
         }
 
