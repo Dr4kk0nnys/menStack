@@ -12,7 +12,7 @@ router.get('/', auth.checkNotAuthenticated, (req, res) => {
 
 router.post('/', passport.authenticate('local', {
     successRedirect: '/todos',
-    failureRedirect: '/error'
+    failureRedirect: '/incorrect-credentials'
 }))
 
 export default router

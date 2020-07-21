@@ -29,6 +29,7 @@ import index from './routes/index.js'
 import register from './routes/register.js'
 import login from './routes/login.js'
 import todos from './routes/todos.js'
+import incorrectCredentials from './routes/incorrect-credentials.js'
 
 import express from 'express'
 const app = express()
@@ -53,6 +54,7 @@ app.use('/', index)
 app.use('/register', register)
 app.use('/login', login)
 app.use('/todos', todos)
+app.use('/incorrect-credentials', incorrectCredentials)
 
 app.delete('/logout', (req, res) => {
     /*
