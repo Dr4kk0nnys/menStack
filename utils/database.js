@@ -17,6 +17,8 @@ class Database {
 
             this.users = this.database.collection(process.env.USERS_COLLECTION)
             this.todos = this.database.collection(process.env.TODOS_COLLECTION)
+
+            console.log('Successfully connected to the database!')
         } catch (error) {
             throw error
         }

@@ -5,11 +5,6 @@ const __dirname = path.resolve(path.dirname(''))
 
 import Database from './utils/database.js'
 const database = new Database()
-async function connectDatabase() {
-    console.log('Initializing database!')
-    await database.connect()
-}
-connectDatabase()
 
 // Passport config
 import methodOverride from 'method-override'
@@ -17,6 +12,12 @@ import session from 'express-session'
 import passport from 'passport'
 
 import initialize from './utils/passport-config.js'
+/*
+    * Initialize the database
+    * Initialize the passport initialize() function
+        * passing email and id as parameters
+*/
+(async () => await database.connect())()
 initialize(
     passport,
     async email => {
