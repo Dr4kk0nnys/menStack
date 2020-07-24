@@ -7,7 +7,7 @@ import express from 'express'
 const router = express.Router()
 
 import Database from '../utils/database.js'
-const database = new Database(process.env.DATABASE_NAME, process.env.USERS_TABLE_NAME)
+const database = new Database()
 
 router.get('/', auth.checkNotAuthenticated, (req, res) => {
     res.render('register.ejs')
@@ -23,7 +23,10 @@ router.post('/', auth.checkNotAuthenticated, async (req, res) => {
             *   it also saves the password, but encrypted
             *   and then redirects the user to the /login page
         */
-        const users = await database.readAll()
+
+        await database.connect()
+        const users = await database.getUsers().toArray()
+
         const isEmailRegistered = users.filter(user => user.email === req.body.email)[0]
 
         if (isEmailRegistered) {
@@ -32,12 +35,12 @@ router.post('/', auth.checkNotAuthenticated, async (req, res) => {
 
         const hashedPassword = await bcryptjs.hash(req.body.password, 10)
         const newUser = {
-            name: req.body.name,
-            email: req.body.email,
-            password: hashedPassword
+            'name': req.body.name,
+            'email': req.body.email,
+            'password': hashedPassword
         }
 
-        await database.add(newUser)
+        await database.insert(newUser)
 
         res.redirect('/login')
     } catch (error) {

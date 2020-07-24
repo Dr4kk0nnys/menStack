@@ -64,9 +64,9 @@ class Database {
         }
     }
 
-    async getUsers() {
+    getUsers() {
         try {
-            const users = await this.users.findOne({})
+            const users = this.users.find({})
             return users
         } catch (error) {
             throw error
@@ -81,15 +81,29 @@ class Database {
             throw error
         }
     }
+
+    async deleteUserByEmail(email = '') {
+        try {
+            await this.users.deleteOne({ email })
+        } catch (error) {
+            throw error
+        }
+    }
 }
 
 async function main() {
     const database = new Database()
     await database.connect()
 
+    await database.insert({
+        'name': 'Joshua',
+        'email': 'joshua@gmail.com',
+        'password': 'joshua'
+    })
+
     database.closeConnection()
 }
 
-main()
+// main()
 
-// export default Database
+export default Database
