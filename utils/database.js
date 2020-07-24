@@ -11,6 +11,8 @@ class Database {
 
     async connect() {
         try {
+            if (this.client.isConnected()) return
+
             await this.client.connect()
 
             this.database = this.client.db(process.env.DATABASE_NAME)
@@ -25,7 +27,7 @@ class Database {
     }
 
     closeConnection() {
-        this.client.close()
+        if (!this.client.isConnected()) this.client.close()
     }
 
     async insert(object = {}) {

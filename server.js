@@ -19,7 +19,6 @@ import initialize from './utils/passport-config.js'
 */
 (async () => await database.connect())()
 initialize(
-    passport,
     async email => {
         const users = await database.getUsers().toArray()
         return users.find(user => user.email === email)

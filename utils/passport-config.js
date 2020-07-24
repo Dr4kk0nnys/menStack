@@ -1,10 +1,11 @@
 import bcryptjs from 'bcryptjs'
+import passport from 'passport'
 
 import localPassport from 'passport-local'
 const LocalStrategy = localPassport.Strategy
 
 
-function initialize(passport, getUserByEmail, getUserById) {
+function initialize(getUserByEmail, getUserById) {
     console.log('Initialize called!')
     async function authenticateUser(email, password, done) {
         const user = await getUserByEmail(email)
