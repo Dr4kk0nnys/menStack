@@ -1,123 +1,76 @@
-import mysql from 'mysql'
+import { } from 'dotenv/config.js'
 
-/*
-    * TODO: Try to do a mini interface using Electron
-*/
+import Mongo from 'mongodb'
+const MongoClient = Mongo.MongoClient
+
 
 class Database {
-    constructor(database_name, table_name) {
-        this.databaseName = database_name
-        this.tableName = table_name
-
-        this.database = mysql.createConnection({
-            host: 'localhost',
-            user: 'root',
-            password: '',
-            database: this.databaseName
-        })
-
-        this.connectDatabase()
+    constructor() {
+        this.client = new MongoClient(process.env.ATLAS_URI, { useUnifiedTopology: true })
     }
 
-    connectDatabase() {
-        this.database.connect((err) => {
-            if (err) throw new Error(err.sqlMessage)
+    async connect() {
+        try {
+            await this.client.connect()
 
-            console.log('Connection established!')
-        })
+            this.database = this.client.db(process.env.DATABASE_NAME)
+
+            this.users = this.database.collection(process.env.USERS_COLLECTION)
+            this.todos = this.database.collection(process.env.TODOS_COLLECTION)
+        } catch (error) {
+            throw error
+        }
     }
 
-    readAll() {
-        return new Promise((resolve, reject) => {
-            const query = `SELECT * FROM ${this.tableName}`
-            this.database.query(query, (err, res) => {
-                if (err) return reject(err)
-
-                resolve(res)
-            })
-        })
+    closeConnection() {
+        this.client.close()
     }
 
-    read(id = 1) {
-        return new Promise((resolve, reject) => {
-            const query = `SELECT * FROM ${this.tableName} WHERE id = ${id}`
-            this.database.query(query, (err, res) => {
-                if (err) return reject(err)
+    async insert(object = {}) {
+        /*
+            * User: name, email, password
+            * ToDo: title, description
+        */
 
-                resolve(res)
-            })
-        })
-    }
+        const keys = Object.keys(object)
 
-    add(data = { todo: 'Empty object' }) {
-        return new Promise((resolve, reject) => {
-            const query = `INSERT INTO ${this.tableName} SET ?`
-            this.database.query(query, data, (err, res) => {
-                if (err) return reject(err)
+        const addUserKeys = ['name', 'email', 'password']
+        const addTodoKeys = ['title', 'description']
 
-                resolve(res)
-            })
-        })
-    }
+        if (keys.every((key, index) => key === addUserKeys[index])) {
 
-    remove(id = 1) {
-        return new Promise((resolve, reject) => {
-            const query = `DELETE FROM ${this.tableName} WHERE id = ${id}`
-            this.database.query(query, (err, res) => {
-                if (err) return reject(err)
+            const { name, email, password } = object
+            await this.users.insertOne({ name, email, password })
 
-                resolve(res)
-            })
-        })
-    }
+            return true
+        }
 
-    update(id = 1, data = { todo: 'Empty object' }) {
-        return new Promise((resolve, reject) => {
-            const query = `UPDATE ${this.tableName} SET todo = '${data.todo}' WHERE id = ${id}`
-            this.database.query(query, (err, res) => {
-                if (err) return reject(err)
+        if (keys.every((key, index) => key === addTodoKeys[index])) {
+            
+            return true
+        }
 
-                resolve(res)
-            })
-        })
-    }
-
-    close() {
-        this.database.end((err) => {
-            if (err) throw err
-
-            console.log('MySQL database closed!')
-        })
-    }
-
-    resetIdValue() {
-        return new Promise((resolve, reject) => {
-            const query = `SELECT * FROM ${this.tableName}`
-            this.database.query(query, (err, res) => {
-                if (err) reject(err)
-
-                const lastIndex = res.length - 1
-
-                if (lastIndex > 0) {
-                    const lastId = res[lastIndex].id
-
-                    this.database.query(`ALTER TABLE ${this.tableName} AUTO_INCREMENT = ${lastId}`, (err, res) => {
-                        if (err) return reject(err)
-
-                        resolve(res)
-                    })
-                } else {
-                    // If there is no items in the database
-                    // Set the AUTO_INCREMENT value to 0
-                    this.database.query(`ALTER TABLE ${this.tableName} AUTO_INCREMENT = 0`, (err, res) => {
-                        if (err) return reject(err)
-
-                        resolve(res)
-                    })
-                }
-            })
-        })
     }
 }
 
-export default Database
+async function main() {
+    const database = new Database()
+    await database.connect()
+
+    await database.insert({
+        'name': 'Dr4kk0nnys',
+        'email': 'renatoversianidrakk@gmail.com',
+        'password': '12345'
+    })
+
+    // database.insert({
+    //     'title': 'Todo title',
+    //     'description': '123 description ass'
+    // })
+
+    database.closeConnection()
+}
+
+main()
+
+// export default Database
