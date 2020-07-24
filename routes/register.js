@@ -24,7 +24,7 @@ router.post('/', auth.checkNotAuthenticated, async (req, res) => {
             *   and then redirects the user to the /login page
         */
 
-        await database.connect()
+        // await database.connect()
         const users = await database.getUsers().toArray()
 
         const isEmailRegistered = users.filter(user => user.email === req.body.email)[0]

@@ -6,6 +6,7 @@ const __dirname = path.resolve(path.dirname(''))
 import Database from './utils/database.js'
 const database = new Database()
 async function connectDatabase() {
+    console.log('Initializing database!')
     await database.connect()
 }
 connectDatabase()
@@ -37,6 +38,7 @@ import incorrectCredentials from './routes/incorrect-credentials.js'
 
 import express from 'express'
 const app = express()
+
 
 app.set('view-engine', 'ejs')
 app.use(express.static(__dirname + '/public'))
