@@ -46,7 +46,10 @@ class Database {
         }
 
         if (keys.every((key, index) => key === addTodoKeys[index])) {
-            
+
+            const { title, description } = object
+            await this.todos.insertOne({ title, description })
+
             return true
         }
 
@@ -56,17 +59,6 @@ class Database {
 async function main() {
     const database = new Database()
     await database.connect()
-
-    await database.insert({
-        'name': 'Dr4kk0nnys',
-        'email': 'renatoversianidrakk@gmail.com',
-        'password': '12345'
-    })
-
-    // database.insert({
-    //     'title': 'Todo title',
-    //     'description': '123 description ass'
-    // })
 
     database.closeConnection()
 }
