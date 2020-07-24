@@ -6,13 +6,15 @@ const MongoClient = Mongo.MongoClient
 
 class Database {
     constructor() {
-        this.client = new MongoClient(process.env.ATLAS_URI, { useUnifiedTopology: true })
+        (async () => {
+            this.client = new MongoClient(process.env.ATLAS_URI, { useUnifiedTopology: true })
+
+            if (!this.client.isConnected()) await this.connect()
+        })()
     }
 
     async connect() {
         try {
-            if (this.client.isConnected()) return
-
             await this.client.connect()
 
             this.database = this.client.db(process.env.DATABASE_NAME)
@@ -69,12 +71,7 @@ class Database {
     }
 
     getUsers() {
-        try {
-            const users = this.users.find({})
-            return users
-        } catch (error) {
-            throw error
-        }
+        return this.users.find({})
     }
 
     async getUserByEmail(email = '') {
@@ -86,28 +83,15 @@ class Database {
         }
     }
 
-    async deleteUserByEmail(email = '') {
+    async getUserById(_id = '') {
         try {
-            await this.users.deleteOne({ email })
+            const user = await this.users.findOne({ '_id': Mongo.ObjectID(_id) })
+            return user
         } catch (error) {
             throw error
         }
     }
 }
 
-async function main() {
-    const database = new Database()
-    await database.connect()
-
-    await database.insert({
-        'name': 'Joshua',
-        'email': 'joshua@gmail.com',
-        'password': 'joshua'
-    })
-
-    database.closeConnection()
-}
-
-// main()
 
 export default Database

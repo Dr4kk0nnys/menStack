@@ -4,36 +4,29 @@ import passport from 'passport'
 import localPassport from 'passport-local'
 const LocalStrategy = localPassport.Strategy
 
+import Database from '../utils/database.js'
+const database = new Database()
 
-function initialize(getUserByEmail, getUserById) {
-    console.log('Initialize called!')
+
+function initialize() {
     async function authenticateUser(email, password, done) {
-        const user = await getUserByEmail(email)
 
-        if (user == null) {
-            console.log('Unregistered email')
-            return done(null, false, { message: 'No user with that email' })
-        }
+        const user = await database.getUserByEmail(email)
+
+        if (user == null) return done(null, false, { message: 'No user with that email' })
 
         try {
-            if (await bcryptjs.compare(password, user.password)) {
-                console.log('Logged in')
-                return done(null, user)
-            }
-            else {
-                console.log('Incorrect password')
-                return done(null, false, { message: 'Incorrect password' })
-            }
-
+            if (await bcryptjs.compare(password, user.password)) return done(null, user)
+            else return done(null, false, { message: 'Incorrect password' })
         } catch (e) {
-            console.log('Error')
             return done(e)
         }
     }
 
     passport.use(new LocalStrategy({ usernameField: 'email' }, authenticateUser))
     passport.serializeUser((user, done) => done(null, String(user._id)))
-    passport.deserializeUser(async (id, done) => done(null, await getUserById(id)))
+    passport.deserializeUser(async (id, done) => done(null, await database.getUserById(id)))
 }
+
 
 export default initialize

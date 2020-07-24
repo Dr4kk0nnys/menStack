@@ -6,12 +6,15 @@ function checkAuthenticated(req, res, next) {
 
     res.redirect('/login')
 }
+
+// redirect the user if already authenticated
 function checkNotAuthenticated(req, res, next) {
     if (req.isAuthenticated()) {
         return res.redirect('/todos')
     }
     next()
 }
+
 
 export default {
     checkAuthenticated,

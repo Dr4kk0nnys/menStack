@@ -1,33 +1,9 @@
-import { } from 'dotenv/config.js'
-
-import path from 'path'
-const __dirname = path.resolve(path.dirname(''))
-
-import Database from './utils/database.js'
-const database = new Database()
-
 // Passport config
 import methodOverride from 'method-override'
 import session from 'express-session'
 import passport from 'passport'
-
 import initialize from './utils/passport-config.js'
-/*
-    * Initialize the database
-    * Initialize the passport initialize() function
-        * passing email and id as parameters
-*/
-(async () => await database.connect())()
-initialize(
-    async email => {
-        const users = await database.getUsers().toArray()
-        return users.find(user => user.email === email)
-    },
-    async id => {
-        const users = await database.getUsers().toArray()
-        return users.find(user => String(user._id) === id)
-    }
-)
+initialize()
 
 // Routes
 import index from './routes/index.js'
@@ -35,13 +11,14 @@ import register from './routes/register.js'
 import login from './routes/login.js'
 import todos from './routes/todos.js'
 import incorrectCredentials from './routes/incorrect-credentials.js'
+import logout from './routes/logout.js'
 
 import express from 'express'
 const app = express()
 
 
 app.set('view-engine', 'ejs')
-app.use(express.static(__dirname + '/public'))
+app.use(express.static('public'))
 
 app.use(express.urlencoded({ extended: false }))
 
@@ -61,17 +38,6 @@ app.use('/register', register)
 app.use('/login', login)
 app.use('/todos', todos)
 app.use('/incorrect-credentials', incorrectCredentials)
+app.delete('/logout', logout)
 
-app.delete('/logout', (req, res) => {
-    /*
-        * Delete is the correct way of deleting sessions
-        * The req.logOut function is set by passport automatically
-        * It clears the session, and log the user out
-        * And after that, it redirects the user out to the /login page
-    */
-    req.logOut()
-    res.redirect('/login')
-})
-
-const PORT = process.env.PORT || 3000
-app.listen(PORT, () => console.log(`Server listening on port ${PORT}`))
+app.listen(3000, () => console.log(`Server listening on port 3000`))

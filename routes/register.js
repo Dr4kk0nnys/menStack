@@ -3,11 +3,12 @@ import { } from 'dotenv/config.js'
 
 import auth from '../utils/auth.js'
 
+import Database from '../utils/database.js'
+const database = new Database()
+
 import express from 'express'
 const router = express.Router()
 
-import Database from '../utils/database.js'
-const database = new Database()
 
 router.get('/', auth.checkNotAuthenticated, (req, res) => {
     res.render('register.ejs')
@@ -18,20 +19,17 @@ router.post('/', auth.checkNotAuthenticated, async (req, res) => {
         /*
             * It first check if the user.email is already inside the database
             *   ( if the email has already been registered )
-            * If it does, it show an error scree
+            * If it does, it show an error screen
             * If it doesn't it saves the email to the database
             *   it also saves the password, but encrypted
             *   and then redirects the user to the /login page
         */
-
-        await database.connect()
         const users = await database.getUsers().toArray()
 
         const isEmailRegistered = users.filter(user => user.email === req.body.email)[0]
 
-        if (isEmailRegistered) {
+        if (isEmailRegistered)
             return res.render('error.ejs', { error: 'This email has already been registered!' })
-        }
 
         const hashedPassword = await bcryptjs.hash(req.body.password, 10)
         const newUser = {
@@ -47,5 +45,6 @@ router.post('/', auth.checkNotAuthenticated, async (req, res) => {
         res.render('error.ejs', { error })
     }
 })
+
 
 export default router
