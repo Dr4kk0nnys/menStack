@@ -1,3 +1,8 @@
+/*
+    * TODO: Start thinking about the css
+    * TODO: Start working on the todo part
+*/
+
 // Passport config
 import methodOverride from 'method-override'
 import session from 'express-session'

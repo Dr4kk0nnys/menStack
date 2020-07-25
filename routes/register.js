@@ -3,11 +3,11 @@ import { } from 'dotenv/config.js'
 
 import auth from '../utils/auth.js'
 
-import Database from '../utils/database.js'
-const database = new Database()
-
 import express from 'express'
 const router = express.Router()
+
+import Database from '../utils/database.js'
+const database = new Database()
 
 
 router.get('/', auth.checkNotAuthenticated, (req, res) => {
