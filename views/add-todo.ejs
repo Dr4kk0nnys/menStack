@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add ToDo</title>
+</head>
+
+<body>
+    <h1>Add ToDo</h1>
+
+    <form action="/todos/add_todo" method="POST">
+        <div>
+            <label for="title">Title</label>
+            <input name="title" id="title" type="text" required>
+
+            <label for="description">Description</label>
+            <input name="description" id="description" type="text" required>
+
+            <button type="submit">Add ToDo</button>
+        </div>
+    </form>
+</body>
+
+</html>

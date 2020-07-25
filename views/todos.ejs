@@ -9,6 +9,18 @@
 
 <body>
     <h1>Hello <%= name %></h1>
+    <p>Your user_id is <%= user_id %></p>
+
+    <% todos.forEach(todo => { %>
+    <ul>
+        <li><%= todo.title %></li>
+        <li><%= todo.description %></li>
+    </ul>
+    <% }) %>
+
+
+    <button onclick="location.href = '/todos/add_todo'">Add ToDo</button>
+    <button onclick="location.href = '/todos/remove_todo'">Remove ToDo</button>
 
     <form action="/logout?_method=DELETE" method="POST">
         <div>

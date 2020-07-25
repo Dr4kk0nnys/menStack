@@ -40,7 +40,7 @@ class Database {
         const keys = Object.keys(object)
 
         const addUserKeys = ['name', 'email', 'password']
-        const addTodoKeys = ['title', 'description']
+        const addTodoKeys = ['user_id', 'title', 'description']
 
         try {
 
@@ -60,8 +60,8 @@ class Database {
 
             if (keys.every((key, index) => key === addTodoKeys[index])) {
 
-                const { title, description } = object
-                await this.todos.insertOne({ title, description })
+                const { user_id, title, description } = object
+                await this.todos.insertOne({ user_id, title, description })
 
                 return true
             }
@@ -87,6 +87,18 @@ class Database {
         try {
             const user = await this.users.findOne({ '_id': Mongo.ObjectID(_id) })
             return user
+        } catch (error) {
+            throw error
+        }
+    }
+
+    getTodosByUserID(user_id = '') {
+        return this.todos.find({ user_id })
+    }
+
+    async removeToDoByTitle(title = '') {
+        try {
+            await this.todos.deleteOne({ title })
         } catch (error) {
             throw error
         }

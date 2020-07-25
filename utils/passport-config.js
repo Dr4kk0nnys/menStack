@@ -4,7 +4,7 @@ import passport from 'passport'
 import localPassport from 'passport-local'
 const LocalStrategy = localPassport.Strategy
 
-import Database from '../utils/database.js'
+import Database from './database.js'
 const database = new Database()
 
 
