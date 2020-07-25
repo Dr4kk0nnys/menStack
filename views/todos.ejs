@@ -14,7 +14,9 @@
     <% todos.forEach(todo => { %>
     <ul>
         <li><%= todo.title %></li>
-        <li><%= todo.description %></li>
+        <ul>
+            <li><%= todo.description %></li>
+        </ul>
     </ul>
     <% }) %>
 

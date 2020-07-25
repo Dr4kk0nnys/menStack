@@ -92,7 +92,7 @@ class Database {
         }
     }
 
-    getTodosByUserID(user_id = '') {
+    getToDosByUserID(user_id = '') {
         return this.todos.find({ user_id })
     }
 

@@ -9,10 +9,9 @@ const database = new Database()
 
 router.get('/', auth.checkAuthenticated, async (req, res) => {
     try {
-
         const name = req.user.name
         const user_id = String(req.user._id)
-        const todos = await database.getTodosByUserID(user_id).toArray()
+        const todos = await database.getToDosByUserID(user_id).toArray()
 
         res.render('todos.ejs', { name, user_id, todos })
     } catch (error) {
