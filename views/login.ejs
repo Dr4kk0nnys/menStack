@@ -8,23 +8,25 @@
     <link rel="stylesheet" href="/css/style.css">
 </head>
 
-<body>
+<body id="login-body">
     <h1>Login</h1>
 
     <form action="/login" method="POST">
-        <div>
-            <label for="email">Email</label>
-            <input type="email" name="email" id="email" required>
+        <div id="inputs-register-div">
+            <input class="input" type="email" name="email" id="email" placeholder="Email" required>
+            <input class="input" type="password" name="password" id="password" placeholder="Password" required>
 
-            <label for="password">Password</label>
-            <input type="password" name="password" id="password" required>
-
-            <button type="submit">Login</button>
+            <div id="buttons">
+                <button type="submit">Login</button>
+            </div>
         </div>
     </form>
 
-    <button onclick="location.href = '/register'">Register</button>
-
+    <div id="buttons">
+        <a href="/register">
+            <button>Register</button>
+        </a>
+    </div>
 </body>
 
 </html>
