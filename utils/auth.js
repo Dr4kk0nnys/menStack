@@ -20,7 +20,6 @@ function checkNotAuthenticated(req, res, next) {
     next()
 }
 
-
 export default {
     checkAuthenticated,
     checkNotAuthenticated

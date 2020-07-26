@@ -5,7 +5,6 @@ import passport from 'passport'
 import express from 'express'
 const router = express.Router()
 
-
 router.get('/', auth.checkNotAuthenticated, (req, res) => {
     /*
         * checkNotAuthenticated checks inside the session for an user _id
@@ -14,7 +13,6 @@ router.get('/', auth.checkNotAuthenticated, (req, res) => {
     */
     res.render('login.ejs')
 })
-
 router.post('/', passport.authenticate('local', {
     /*
         * Post method for the authenticate method
@@ -27,6 +25,5 @@ router.post('/', passport.authenticate('local', {
     successRedirect: '/todos',
     failureRedirect: '/incorrect-credentials'
 }))
-
 
 export default router

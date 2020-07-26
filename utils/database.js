@@ -3,7 +3,6 @@ import { } from 'dotenv/config.js'
 import Mongo from 'mongodb'
 const MongoClient = Mongo.MongoClient
 
-
 class Database {
     constructor() {
         (async () => {
@@ -21,8 +20,6 @@ class Database {
 
             this.users = this.database.collection(process.env.USERS_COLLECTION)
             this.todos = this.database.collection(process.env.TODOS_COLLECTION)
-
-            console.log('Successfully connected to the database!')
         } catch (error) {
             throw error
         }
@@ -70,14 +67,18 @@ class Database {
         }
     }
 
-    getUsers() {
-        return this.users.find({})
-    }
+    getUsers() { return this.users.find({}) }
 
     async getUserByEmail(email = '') {
         try {
-            const user = await this.users.findOne({ email })
-            return user
+
+            if (typeof (email) === 'string') {
+
+                if (email.includes('@') && email.includes('.')) {
+
+                    return (await this.users.findOne({ email }))
+                }
+            }
         } catch (error) {
             throw error
         }
@@ -85,25 +86,24 @@ class Database {
 
     async getUserById(_id = '') {
         try {
-            const user = await this.users.findOne({ '_id': Mongo.ObjectID(_id) })
-            return user
+            if (typeof (_id) === 'string') return (await this.users.findOne({ '_id': Mongo.ObjectID(_id) }))
+
         } catch (error) {
             throw error
         }
     }
 
     getToDosByUserID(user_id = '') {
-        return this.todos.find({ user_id })
+        if (typeof (user_id) === 'string') return this.todos.find({ user_id })
     }
 
     async removeToDoByTitle(title = '') {
         try {
-            await this.todos.deleteOne({ title })
+            if (typeof (title) === 'string') await this.todos.deleteOne({ title })
         } catch (error) {
             throw error
         }
     }
 }
-
 
 export default Database

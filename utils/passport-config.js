@@ -7,7 +7,6 @@ const LocalStrategy = localPassport.Strategy
 import Database from './database.js'
 const database = new Database()
 
-
 function initialize() {
     async function authenticateUser(email, password, done) {
 
@@ -27,6 +26,5 @@ function initialize() {
     passport.serializeUser((user, done) => done(null, String(user._id)))
     passport.deserializeUser(async (id, done) => done(null, await database.getUserById(id)))
 }
-
 
 export default initialize
