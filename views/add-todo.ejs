@@ -4,23 +4,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/style.css">
     <title>Add ToDo</title>
 </head>
 
-<body>
+<body id="add-todo-body">
     <h1>Add ToDo</h1>
 
     <form action="/todos/add_todo" method="POST">
-        <div>
-            <label for="title">Title</label>
-            <input name="title" id="title" type="text" required>
+        <div id="inputs-register-div">
+            <input class="input" name="title" id="title" type="text" placeholder="Title" autofocus required>
+            <input class="input" name="description" id="description" type="text" placeholder="Description" required>
 
-            <label for="description">Description</label>
-            <input name="description" id="description" type="text" required>
-
-            <button type="submit">Add ToDo</button>
+            <div id="buttons">
+                <button type="submit">Add ToDo</button>
+            </div>
         </div>
     </form>
+
+    <div id="buttons">
+        <a href="/todos">
+            <button>Back</button>
+        </a>
+    </div>
 </body>
 
 </html>

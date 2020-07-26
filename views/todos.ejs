@@ -4,10 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/style.css">
     <title>ToDos</title>
 </head>
 
-<body>
+<body id="todos-body">
     <h1>Hello <%= name %>!</h1>
 
     <% todos.forEach(todo => { %>
@@ -19,12 +20,19 @@
     </ul>
     <% }) %>
 
-    <button onclick="location.href = '/todos/add_todo'">Add ToDo</button>
-    <button onclick="location.href = '/todos/remove_todo'">Remove ToDo</button>
+    <div id="buttons">
+        <a href="/todos/add_todo">
+            <button>Add ToDo</button>
+        </a>
 
-    <form action="/logout?_method=DELETE" method="POST">
-        <button type="submit">Log Out</button>
-    </form>
+        <a href="/todos/Remove_todo">
+            <button>Remove ToDo</button>
+        </a>
+
+        <form action="/logout?_method=DELETE" method="POST">
+            <button class="input" type="submit">Log Out</button>
+        </form>
+    </div>
 </body>
 
 </html>
