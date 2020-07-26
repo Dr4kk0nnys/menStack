@@ -1,0 +1,40 @@
+body {
+    background-image: linear-gradient(-90deg, rgb(22, 99, 200), rgb(52, 41, 73));
+}
+
+h1 {
+    color: aquamarine;
+
+    display: block;
+    text-align: center;
+    
+    /* Some old browsers do not support vw */
+    font: 10.5vw cursive;
+
+    margin: 0px 0px 0px 0px;
+}
+
+#buttons {
+    /* width: 100px;
+    height: 50px; */
+
+    text-align: center;
+    display: block;
+
+    margin-top: 20px;
+}
+
+button {
+    background-color: crimson;
+    color: #fff;
+
+    border: 1px solid;
+    
+    padding: 15px;
+    width: 175px;
+
+    outline: none;
+    margin: auto;
+
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
