@@ -37,7 +37,7 @@ class Database {
         const keys = Object.keys(object)
 
         const addUserKeys = ['name', 'email', 'password']
-        const addTodoKeys = ['user_id', 'title', 'description']
+        const addTodoKeys = ['user_id', 'title']
 
         try {
 
@@ -57,9 +57,8 @@ class Database {
 
             if (keys.every((key, index) => key === addTodoKeys[index])) {
 
-                const { user_id, title, description } = object
-                await this.todos.insertOne({ user_id, title, description })
-
+                const { user_id, title } = object
+                await this.todos.insertOne({ user_id, title })
                 return true
             }
         } catch (error) {

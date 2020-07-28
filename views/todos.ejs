@@ -11,28 +11,25 @@
 <body id="todos-body">
     <h1>Hello <%= name %>!</h1>
 
-    <% todos.forEach(todo => { %>
-    <ul>
-        <li><%= todo.title %></li>
-        <ul>
-            <li><%= todo.description %></li>
-        </ul>
-    </ul>
-    <% }) %>
-
     <div id="buttons">
-        <a href="/todos/add_todo">
-            <button>Add ToDo</button>
-        </a>
+        <form action="/todos/add_todo" method="POST">
+            <input type="text" name="title" id="title" placeholder="Add todo ( Title )">
+        </form>
 
-        <a href="/todos/Remove_todo">
-            <button>Remove ToDo</button>
-        </a>
+        <form action="/todos/remove_todo" method="POST">
+            <input type="text" name="title" id="title" placeholder="Remove todo ( Title )">
+        </form>
 
         <form action="/logout?_method=DELETE" method="POST">
             <button class="input" type="submit">Log Out</button>
         </form>
     </div>
+
+    <% todos.forEach(todo => { %>
+    <ul>
+        <li><%= todo.title %></li>
+    </ul>
+    <% }) %>
 </body>
 
 </html>

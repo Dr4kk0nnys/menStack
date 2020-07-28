@@ -1,0 +1,38 @@
+Implemented the css
+Implemented the css on the Login and Register pages
+Css added to the index page
+Code Refactored!
+Added a todo tree / Starting to refactor the whole code / Few implementations to come
+Changed the name of a function inside the database file / Working alfa of the todo implementation / ToDo is working 100 % / Implementation was a success
+Small change to the todos.js file
+Working demo of the todo implementation / Add todo function added / Remove todo function added / Paths and views for the corresponding files added / Implemented GetTodoByUserID and removeToDoByTitle / Added a todo.md to help understand the functionality
+Commented some parts of the code / Improved readability and understanding of the code
+Refactored all the code ( Still needs some comments about some functions ) / Fixed the bug where the database got called way to much / Fixed a lot of bugs / Refactored all the code
+Remove the passport parameter from the passport-config file / passport is now directly imported from the file / Removed a bug from the register page -> The database now has a check if statement, that make sure the client is not connected before trying to connect / Inside the connect from the database, there is a check ( client.isConnected() ) to make sure the database does not try to connect to the client, when the client is already connected
+Fixed a small bug on the register page ( the await database.connect() was commented out )
+Changed the position of the database.connect function on the server file / Added a console.log to the database.connect function inside the database file
+Few changes to the code / Database completely integrated / Database switch was a success
+Final methods added / Fixed a whole bunch of small bugs in the passport with the new db / Database class still needs the ToDos functions / Working demo done / Transition between databases done / Merging branches
+Try Catch block added to the insert function / getUsers() and getUserByEmail added
+addTodo() functionality added to the insert function
+Insert function added / One functionality ( add user ) is done / Insert will be used by both addUser() and addTodo()
+Removed mysql package / Added ATLAS_URI inside the .env / Starting to change the database from mysql to mongodb
+Incorrect credentials route added / It is very handy when using the failure redirect on the login file / Going for a big change ( Trying to use mongodb )
+Code refactored for the authentication / The code is 100 % Working as it should be / All the functionalities of authentication are added and there are no known bugs / Create an utils/auth.js file that handles the checkAuth and checkNotAuth for the user, added the checkAuth and checkNotAuth for all the routes, on both get and post / Created an index page / User session is working wonderfully, the user can leave the website and it will not log out, and if the user is logged in, it cannot access the /register, /login, /todos routes
+Refactoring the code for the authentication
+Finally a working demo / All the functionalities I need are 100 % working / If the user is not logged in, and try to go to /todos, it gets redirected to /login, if the user is logged in, and try to go /register or /login, it gets redirected to /todos
+Code has to be changed in order to work in the needed way / Starting tests with passport.js ( again ), but now following several tutorials, in some cases, i will even recreate a project from scratch to do the exatch same project
+Not working / code looks to be okay / Dependencies added
+Authentication file done
+Removed unnecessary code from the server file and from the login file
+Starting to work on the authentication part ( if the user is already logged in, it should not be able to got to the /login or /register, and if the user is not logged in, it should not be able to got to the /todos )
+Small bug in the register file, when checking for the email in the database, if found, it means the user already registered that email in the site, it then shows an error screen, but i forgot the return statement, and was still beeing pushed to the database. Now i added the return statement, and if the email has already been registered it does not add it to the database;
+Header bug fixed ( The bug apparently occurs when res.send / res.render / res.redirect is called twice in the same loop ), fixed adding return statements to the function
+Initial commit of the bug fix
+The login system is working / The user can now loggin to it`s account and if the credentials are wrong, it will specify which one / There is a "bug" though that it is saying: [200~Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client~ - Trying to debug it and fix it
+Working alfa ( the login recognises the wrong password, but does not recognise a wrong email )
+Some files need to be change ( The login is not working )
+Router Login.js Done!
+Login.js changed module to check for the password
+Router added to the login.js file, added error.ejs and incorrect-credentials.ejs
+Few files added / Database added / Static folder ( public ) added / Css addded to the register.ejs file / Created the routes, utils, views folders
