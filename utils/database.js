@@ -13,6 +13,13 @@ class Database {
     }
 
     async connect() {
+        /*
+            * This function is called for every time the new Database() is called
+            * In the start, I thought this was a bad habit, since the connection only had to be done once
+            * But I realized in order to connect a database call to a certain file ( E.g passport-config.js )
+            * The connect() has to be called, it gives the file the permission to call the database methods
+        */
+
         try {
             await this.client.connect()
 
@@ -32,7 +39,7 @@ class Database {
     async insert(object = {}) {
         /*
             * User: name, email, password
-            * ToDo: title, description
+            * ToDo: user_id, title
         */
         const keys = Object.keys(object)
 
@@ -59,6 +66,7 @@ class Database {
 
                 const { user_id, title } = object
                 await this.todos.insertOne({ user_id, title })
+
                 return true
             }
         } catch (error) {

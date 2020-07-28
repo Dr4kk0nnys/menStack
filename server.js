@@ -1,7 +1,3 @@
-/*
-    * TODO: Work on the css from the site
-*/
-
 // Passport config
 import methodOverride from 'method-override'
 import session from 'express-session'
@@ -33,7 +29,7 @@ app.use(session({
 }))
 app.use(passport.initialize())
 app.use(passport.session())
-app.use(methodOverride('_method'))
+app.use(methodOverride('_method')) // logout
 
 // Routes
 app.use('/', index)

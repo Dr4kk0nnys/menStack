@@ -30,7 +30,6 @@ router.get('/', auth.checkAuthenticated, async (req, res) => {
                 _id: $3j2124j2lk1sa4201D312ds$,
                 user_id: user._id, // id of the todos owner
                 title: 'ToDo Title',
-                description: 'ToDo Description ...'
             }
 
 
@@ -57,7 +56,9 @@ router.post('/add_todo', auth.checkAuthenticated, async (req, res) => {
 
 router.post('/remove_todo', auth.checkAuthenticated, async (req, res) => {
     try {
-        await database.removeToDoByTitle(req.body.title)
+        const { title } = req.body
+
+        if (title) await database.removeToDoByTitle(title)
         res.redirect('/todos')
     } catch (error) {
         res.render('error.ejs', { error })
