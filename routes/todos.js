@@ -65,7 +65,6 @@ router.post('/remove_todo/:title', auth.checkAuthenticated, async (req, res) => 
     try {
 
         const { title } = req.params
-        console.log('Title: ' + title)
 
         if (title)
             if (typeof (title) === 'string')
