@@ -38,5 +38,8 @@ app.use('/login', login)
 app.use('/todos', todos)
 app.use('/incorrect-credentials', incorrectCredentials)
 app.delete('/logout', logout)
+app.use('/error', (req, res) => {
+    res.render('error.ejs', { error: 'This shit cannot be add up' })
+})
 
 app.listen(3000, () => console.log(`Server listening on port 3000`))

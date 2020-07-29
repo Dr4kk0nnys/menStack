@@ -42,24 +42,35 @@ router.get('/', auth.checkAuthenticated, async (req, res) => {
     }
 })
 
+router.get('/help', (req, res) => {
+    res.render('todos-help.ejs')
+})
+
 router.post('/add_todo', auth.checkAuthenticated, async (req, res) => {
     try {
         const user_id = String(req.user._id)
-        const { title } = req.body
+
+        let { title } = req.body
+        title = title.replace(/`/g, '\'') // sanitizing title
 
         if (user_id && title) await database.insert({ user_id, title })
+
         res.redirect('/todos')
     } catch (error) {
         res.render('error.ejs', { error })
     }
 })
 
-router.post('/remove_todo', auth.checkAuthenticated, async (req, res) => {
+router.post('/remove_todo/:title', auth.checkAuthenticated, async (req, res) => {
     try {
-        const { title } = req.body
 
-        if (title) await database.removeToDoByTitle(title)
-        res.redirect('/todos')
+        const { title } = req.params
+        console.log('Title: ' + title)
+
+        if (title)
+            if (typeof (title) === 'string')
+                await database.removeToDoByTitle(title)
+
     } catch (error) {
         res.render('error.ejs', { error })
     }
